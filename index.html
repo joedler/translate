@@ -55,7 +55,7 @@
         .translation-section {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
         }
         .translation-section textarea {
             height: 60px;
@@ -75,6 +75,9 @@
             text-align: center;
             width: 100%;
         }
+        .language-select {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -84,14 +87,32 @@
         </header>
         <main>
             <section class="translation-section">
-                <textarea id="inputText" placeholder="Please input text"></textarea>
+                <div>
+                    <select id="inputLanguage" class="language-select">
+                        <option value="en">English</option>
+                        <option value="zh">Chinese</option>
+                        <option value="es">Spanish</option>
+                    </select>
+                    <textarea id="inputText" placeholder="Please input text"></textarea>
+                </div>
                 <div class="translation-buttons">
                     <button id="translateButton">Translate</button>
                     <button id="ttsButton">🔊 Speak</button>
                 </div>
             </section>
-            <section>
-                <textarea id="translationOutput" readonly placeholder="Translation result"></textarea>
+            <section class="translation-section">
+                <div>
+                    <select id="outputLanguage" class="language-select">
+                        <option value="en">English</option>
+                        <option value="zh">Chinese</option>
+                        <option value="es">Spanish</option>
+                    </select>
+                    <textarea id="translationOutput" readonly placeholder="Translation result"></textarea>
+                </div>
+                <div class="translation-buttons">
+                    <button id="reverseTranslateButton">Reverse Translate</button>
+                    <button id="reverseTTSButton">🔊 Speak</button>
+                </div>
             </section>
         </main>
         <footer>
@@ -110,13 +131,29 @@
 
         document.getElementById('translateButton').addEventListener('click', () => {
             const inputText = document.getElementById('inputText').value;
-            // Translation logic here
-            document.getElementById('translationOutput').value = `Translated: ${inputText}`;
+            const inputLang = document.getElementById('inputLanguage').value;
+            const outputLang = document.getElementById('outputLanguage').value;
+            // Mock Translation logic
+            document.getElementById('translationOutput').value = `Translated [${inputLang} -> ${outputLang}]: ${inputText}`;
         });
 
         document.getElementById('ttsButton').addEventListener('click', () => {
             const inputText = document.getElementById('inputText').value;
             const utterance = new SpeechSynthesisUtterance(inputText);
+            speechSynthesis.speak(utterance);
+        });
+
+        document.getElementById('reverseTranslateButton').addEventListener('click', () => {
+            const outputText = document.getElementById('translationOutput').value;
+            const inputLang = document.getElementById('outputLanguage').value;
+            const outputLang = document.getElementById('inputLanguage').value;
+            // Mock Reverse Translation logic
+            document.getElementById('inputText').value = `Reversed [${inputLang} -> ${outputLang}]: ${outputText}`;
+        });
+
+        document.getElementById('reverseTTSButton').addEventListener('click', () => {
+            const outputText = document.getElementById('translationOutput').value;
+            const utterance = new SpeechSynthesisUtterance(outputText);
             speechSynthesis.speak(utterance);
         });
     </script>
