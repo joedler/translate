@@ -6,6 +6,76 @@
     <title>Azure TTS Translator</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="manifest" href="manifest.json">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+        }
+        main {
+            max-width: 600px;
+            width: 100%;
+            padding: 10px;
+        }
+        section {
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            margin-right: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .translation-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .translation-section textarea {
+            height: 60px;
+            flex-grow: 1;
+        }
+        .translation-buttons {
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+        }
+        .translation-buttons button {
+            margin-bottom: 5px;
+        }
+        footer {
+            background-color: #f1f1f1;
+            padding: 10px;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -13,14 +83,15 @@
             <h1>Azure TTS Translator</h1>
         </header>
         <main>
-            <section>
-                <textarea id="inputText" placeholder="Enter text here..."></textarea>
-                <button id="translateButton">Translate</button>
-                <button id="ttsButton">Text to Speech</button>
+            <section class="translation-section">
+                <textarea id="inputText" placeholder="Please input text"></textarea>
+                <div class="translation-buttons">
+                    <button id="translateButton">Translate</button>
+                    <button id="ttsButton">🔊 Speak</button>
+                </div>
             </section>
             <section>
-                <h2>Translation</h2>
-                <div id="translationOutput"></div>
+                <textarea id="translationOutput" readonly placeholder="Translation result"></textarea>
             </section>
         </main>
         <footer>
@@ -36,6 +107,18 @@
                 .then(() => console.log('Service Worker Registered'))
                 .catch(err => console.error('Service Worker Registration Failed:', err));
         }
+
+        document.getElementById('translateButton').addEventListener('click', () => {
+            const inputText = document.getElementById('inputText').value;
+            // Translation logic here
+            document.getElementById('translationOutput').value = `Translated: ${inputText}`;
+        });
+
+        document.getElementById('ttsButton').addEventListener('click', () => {
+            const inputText = document.getElementById('inputText').value;
+            const utterance = new SpeechSynthesisUtterance(inputText);
+            speechSynthesis.speak(utterance);
+        });
     </script>
 </body>
 </html>
