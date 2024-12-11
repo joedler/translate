@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure TTS Translator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>Azure TTS Translator</h1>
+        </header>
+        <main>
+            <section>
+                <textarea id="inputText" placeholder="Enter text here..."></textarea>
+                <button id="translateButton">Translate</button>
+                <button id="ttsButton">Text to Speech</button>
+            </section>
+            <section>
+                <h2>Translation</h2>
+                <div id="translationOutput"></div>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2024 Azure TTS Translator</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // Register service worker for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(() => console.log('Service Worker Registered'))
+                .catch(err => console.error('Service Worker Registration Failed:', err));
+        }
+    </script>
+</body>
+</html>
